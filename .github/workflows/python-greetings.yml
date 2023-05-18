@@ -23,12 +23,12 @@ jobs:
       - uses: actions/checkout@v3.5.2
         with:
           repository: mtararujs/python-greetings
-          path: python-greetings
+          path: pg
       - uses: ./.github/actions/deploy
         with:
           port: 7001
           environment: dev
-          working_dir: python-greetings
+          working_dir: pg
 
   test-dev:
     runs-on: self-hosted
