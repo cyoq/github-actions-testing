@@ -6,9 +6,6 @@ inputs:
     description: Testing environment, supports dev, staging, preprod, prod
     required: false
     default: dev
-  working_dir:
-    description: Working directory where to call the code
-    required: true
 
 runs:
   using: "composite"
