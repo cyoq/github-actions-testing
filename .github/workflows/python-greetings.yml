@@ -24,7 +24,6 @@ jobs:
         with:
           repository: mtararujs/python-greetings
           path: pg
-          persist-credentials: false
       - uses: ./.github/actions/deploy
         with:
           port: 7001
@@ -40,6 +39,7 @@ jobs:
         with:
           repository: mtararujs/course-js-api-framework
           path: js-api-tests
+          clean: false
       - uses: ./.github/actions/test
         with:
           environment: dev
