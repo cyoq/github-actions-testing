@@ -32,5 +32,6 @@ runs:
 
     - name: Start a new service
       working-directory: "./python-greetings"
+      # Needs double escape to be able to run in PowerShell
       run : pm2 start --name greetings-app-${{ inputs.environment }} app.py -- -- --port ${{ inputs.port }}
       shell: powershell
