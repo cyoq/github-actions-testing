@@ -10,6 +10,9 @@ inputs:
     description: Environment for a Python application, supports dev, staging, preprod, prod
     required: false
     default: dev
+  working_dir:
+    description: Working directory where to call the code
+    required: true
 
 runs:
   using: "composite"
@@ -17,22 +20,16 @@ runs:
     - name: Print output
       run: echo "Deployment to ${{ inputs.environment }} has started..."
       shell: powershell
-
-    - name: Checkout Python repository
-      uses: actions/checkout@v3.5.2
-      with:
-        repository: mtararujs/python-greetings
-        path: ./repos/python-greetings
       
     - name: Remove old service
-      working-directory: ./repos/python-greetings
+      working-directory: ${{ inputs.working_dir }}
       run: |
         pm2 delete greetings-app-${{ inputs.environment }}; 
         exit 0
       shell: powershell
 
     - name: Start a new service
-      working-directory: ./repos/python-greetings
+      working-directory: ${{ inputs.working_dir }}
       # Needs double escape for --port to be able to run in PowerShell
       run : pm2 start --name greetings-app-${{ inputs.environment }} app.py -- -- --port ${{ inputs.port }}
       shell: powershell

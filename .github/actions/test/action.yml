@@ -3,9 +3,12 @@ description: Tests application in the specific environment
 
 inputs:
   environment:
-    description: Testing environment,  supports dev, staging, preprod, prod
+    description: Testing environment, supports dev, staging, preprod, prod
     required: false
     default: dev
+  working_dir:
+    description: Working directory where to call the code
+    required: true
 
 runs:
   using: "composite"
@@ -14,18 +17,12 @@ runs:
       run: echo "Testing on ${{ inputs.environment }} has started.."
       shell: powershell
 
-    - name: Checkout JS repository
-      uses: actions/checkout@v3.5.2
-      with:
-        repository: mtararujs/course-js-api-framework
-        path: ./repos/js-api
-
     - name: Install npm dependencies
-      working-directory: ./repos/js-api
+      working-directory: ${{ inputs.working_dir }}
       run : npm install
       shell: powershell
 
     - name: Execute REST API integration tests
-      working-directory: ./repos/js-api
+      working-directory: ${{ inputs.working_dir }}
       run : npm run greetings greetings_${{ inputs.environment }}
       shell: powershell
