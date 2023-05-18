@@ -9,11 +9,11 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  install-pip-deps:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3.5.2
-      - uses: ./.github/actions/build
+      - uses: ./.github/actions/install-pip
 
   # deploy-dev:
   #   runs-on: self-hosted
