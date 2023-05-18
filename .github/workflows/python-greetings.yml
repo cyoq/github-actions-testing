@@ -25,18 +25,14 @@ jobs:
           port: 7001
           environment: dev
 
-  # test-dev:
-  #   runs-on: self-hosted
-  #   needs: [deploy-dev]
-  #   steps:
-  #     - uses: actions/checkout@v3.5.2
-  #     - uses: actions/checkout@v3.5.2
-  #       with:
-  #         repository: 'mtararujs/course-js-api-framework'
-  #         path: 'api-tests'
-  #     - uses: ./.github/actions/test
-  #       with:
-  #         environment: 'DEV'
+  test-dev:
+    runs-on: self-hosted
+    needs: [deploy-dev]
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/test
+        with:
+          environment: dev
 
   # deploy-stg:
   #   runs-on: self-hosted
