@@ -30,7 +30,7 @@ runs:
         exit 0
       shell: powershell
 
-    - name: Start service
+    - name: Start a new service
       working-directory: "./python-greetings"
       run : pm2 start app.py --name "greetings-app-${{ inputs.environment }}" --port ${{ inputs.port }}
       shell: powershell
