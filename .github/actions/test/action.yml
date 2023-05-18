@@ -18,14 +18,14 @@ runs:
       uses: actions/checkout@v3.5.2
       with:
         repository: mtararujs/course-js-api-framework
-        path: js-api
+        path: ../js-api
 
     - name: Install npm dependencies
-      working-directory: ./js-api
+      working-directory: ../js-api
       run : npm install
       shell: powershell
 
     - name: Execute REST API integration tests
-      working-directory: ./js-api
+      working-directory: ../js-api
       run : npm run greetings greetings_${{ inputs.environment }}
       shell: powershell
