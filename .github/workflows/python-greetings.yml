@@ -31,48 +31,53 @@ jobs:
         with:
           environment: dev
 
-  # deploy-stg:
-  #   runs-on: self-hosted
-  #   needs: [test-dev]
-  #   steps:
-  #     - uses: actions/checkout@v3.5.2
-  #     - uses: ./.github/actions/deploy
-  #       with:
-  #         port: 2020
-  #         environment: 'STG'
+  deploy-stg:
+    runs-on: self-hosted
+    needs: [test-dev]
+    steps:
+      - uses: ./.github/actions/deploy
+        with:
+          port: 7002
+          environment: staging
 
-  # test-stg:
-  #   runs-on: self-hosted
-  #   needs: [deploy-stg]
-  #   steps:
-  #     - uses: actions/checkout@v3.5.2
-  #     - uses: actions/checkout@v3.5.2
-  #       with:
-  #         repository: 'mtararujs/course-js-api-framework'
-  #         path: 'api-tests'
-  #     - uses: ./.github/actions/test
-  #       with:
-  #         environment: 'STG'
+  test-stg:
+    runs-on: self-hosted
+    needs: [deploy-stg]
+    steps:
+      - uses: ./.github/actions/test
+        with:
+          environment: staging
 
-  # deploy-prd:
-  #   runs-on: self-hosted
-  #   needs: [test-stg]
-  #   steps:
-  #     - uses: actions/checkout@v3.5.2
-  #     - uses: ./.github/actions/deploy
-  #       with:
-  #         port: 3030
-  #         environment: 'PRD'
+  deploy-preprd:
+    runs-on: self-hosted
+    needs: [test-stg]
+    steps:
+      - uses: ./.github/actions/deploy
+        with:
+          port: 7003
+          environment: preprod
 
-  # test-prd:
-  #   runs-on: self-hosted
-  #   needs: [deploy-prd]
-  #   steps:
-  #     - uses: actions/checkout@v3.5.2
-  #     - uses: actions/checkout@v3.5.2
-  #       with:
-  #         repository: 'mtararujs/course-js-api-framework'
-  #         path: 'api-tests'
-  #     - uses: ./.github/actions/test
-  #       with:
-  #         environment: 'PRD'
+  test-preprd:
+    runs-on: self-hosted
+    needs: [deploy-preprd]
+    steps:
+      - uses: ./.github/actions/test
+        with:
+          environment: preprod
+
+  deploy-prd:
+    runs-on: self-hosted
+    needs: [test-preprd]
+    steps:
+      - uses: ./.github/actions/deploy
+        with:
+          port: 7004
+          environment: prod
+
+  test-prd:
+    runs-on: self-hosted
+    needs: [deploy-prd]
+    steps:
+      - uses: ./.github/actions/test
+        with:
+          environment: prod
