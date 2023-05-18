@@ -28,6 +28,7 @@ jobs:
         with:
           port: 7001
           environment: dev
+          working_dir: python-greetings
 
   test-dev:
     runs-on: self-hosted
@@ -41,6 +42,7 @@ jobs:
       - uses: ./.github/actions/test
         with:
           environment: dev
+          working_dir: js-api-tests
 
   # deploy-stg:
   #   runs-on: self-hosted
