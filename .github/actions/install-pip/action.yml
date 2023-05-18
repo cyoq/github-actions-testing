@@ -1,0 +1,21 @@
+name: 'Build'
+description: 'Build action'
+
+runs:
+  using: "composite"
+  steps: 
+    - name: Print output
+      run: echo "Installing all required pip dependencies..."
+      shell: powershell
+
+    - name: Checkout Python repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: "mtararujs/python-greetings"
+        path: "python-greetings"
+      
+    - name: Install pip dependencies
+      working-directory: "./python-greetings"
+      run: pip install -r requirements.txt
+      shell: powershell
+    
