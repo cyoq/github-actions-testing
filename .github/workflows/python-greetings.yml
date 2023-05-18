@@ -12,12 +12,17 @@ jobs:
   install-pip-deps:
     runs-on: self-hosted
     steps:
+      # This checkout is pretty much useless throughout the whole pipeline,
+      # since no elements are used from our repository and we can clearly remove this,
+      # but task requires it to be used
+      - uses: actions/checkout@v3.5.2
       - uses: ./.github/actions/install-pip
 
   deploy-to-dev:
     runs-on: self-hosted
     needs: [install-pip-deps]
     steps:
+      - uses: actions/checkout@v3.5.2
       - uses: ./.github/actions/deploy
         with:
           port: 7001
@@ -27,6 +32,9 @@ jobs:
     runs-on: self-hosted
     needs: [deploy-to-dev]
     steps:
+      - uses: actions/checkout@v3.5.2
+        with:
+          clean: false
       - uses: ./.github/actions/test
         with:
           environment: dev
@@ -35,6 +43,7 @@ jobs:
     runs-on: self-hosted
     needs: [tests-on-dev]
     steps:
+      - uses: actions/checkout@v3.5.2
       - uses: ./.github/actions/deploy
         with:
           port: 7002
@@ -44,6 +53,9 @@ jobs:
     runs-on: self-hosted
     needs: [deploy-to-staging]
     steps:
+      - uses: actions/checkout@v3.5.2
+        with:
+          clean: false
       - uses: ./.github/actions/test
         with:
           environment: staging
@@ -52,6 +64,7 @@ jobs:
     runs-on: self-hosted
     needs: [tests-on-staging]
     steps:
+      - uses: actions/checkout@v3.5.2
       - uses: ./.github/actions/deploy
         with:
           port: 7003
@@ -61,6 +74,9 @@ jobs:
     runs-on: self-hosted
     needs: [deploy-to-preprod]
     steps:
+      - uses: actions/checkout@v3.5.2
+        with:
+          clean: false
       - uses: ./.github/actions/test
         with:
           environment: preprod
@@ -69,6 +85,7 @@ jobs:
     runs-on: self-hosted
     needs: [tests-on-preprod]
     steps:
+      - uses: actions/checkout@v3.5.2
       - uses: ./.github/actions/deploy
         with:
           port: 7004
@@ -78,6 +95,9 @@ jobs:
     runs-on: self-hosted
     needs: [deploy-to-prod]
     steps:
+      - uses: actions/checkout@v3.5.2
+        with:
+          clean: false
       - uses: ./.github/actions/test
         with:
           environment: prod
