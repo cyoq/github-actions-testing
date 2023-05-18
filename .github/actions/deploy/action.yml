@@ -1,0 +1,36 @@
+name: Deploy
+description: Deploys application to the specific environment
+
+inputs:
+  port:
+    description: Specify a port for a Python application to run
+    required: false
+    default: "7001"
+  environment:
+    description: Environment for a Python application, supports dev, stg, preprd, prd
+    required: false
+    default: dev
+runs:
+  using: "composite"
+  steps: 
+    - name: Print output
+      run: echo "Deployment to ${{ inputs.environment }} has started..."
+      shell: powershell
+
+    - name: Checkout Python repository
+      uses: actions/checkout@v3.5.2
+      with:
+        repository: "mtararujs/python-greetings"
+        path: "python-greetings"
+      
+    - name: Remove old service
+      working-directory: "./python-greetings"
+      run: |
+        pm2 delete greetings-app-${{ inputs.environment }}; 
+        exit 0
+      shell: powershell
+
+    - name: Start service
+      working-directory: "./python-greetings"
+      run : pm2 start app.py --name "greetings-app-${{ inputs.environment }}" --port ${{ inputs.port }}
+      shell: powershell
