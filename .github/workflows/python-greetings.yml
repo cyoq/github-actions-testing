@@ -19,33 +19,18 @@ jobs:
     runs-on: self-hosted
     needs: [install-pip-deps]
     steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: actions/checkout@v3.5.2
-        with:
-          repository: mtararujs/python-greetings
-          path: python-greetings
       - uses: ./.github/actions/deploy
         with:
           port: 7001
           environment: dev
-          working_dir: python-greetings
 
   test-dev:
     runs-on: self-hosted
     needs: [deploy-dev]
     steps:
-      - uses: actions/checkout@v3.5.2
-        with:
-          clean: false
-      - uses: actions/checkout@v3.5.2
-        with:
-          repository: mtararujs/course-js-api-framework
-          path: js-api-tests
-          clean: false
       - uses: ./.github/actions/test
         with:
           environment: dev
-          working_dir: js-api-tests
 
   # deploy-stg:
   #   runs-on: self-hosted
